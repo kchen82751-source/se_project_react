@@ -1,6 +1,6 @@
-import "./footer.css";
+import "./Footer.css";
 
-function footer() {
+function Footer() {
   return (
     <footer className="footer">
       <p className="footer__name-and-surname">Developed by Name Surname</p>
@@ -11,4 +11,4 @@ function footer() {
   );
 }
 
-export default footer;
+export default Footer;
