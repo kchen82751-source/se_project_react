@@ -13,7 +13,9 @@
 }
 
 .header__add-clothes-btn {
+  background-color: transparent;
   margin: 0 20px 0 auto;
+  border: none;
 }
 
 .header__user-container {
