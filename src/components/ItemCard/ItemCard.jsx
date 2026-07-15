@@ -7,13 +7,16 @@ function ItemCard({ item, onCardClick }) {
 
   return (
     <li className="card">
-      <h2 className="card__name">{item.name}</h2>
+      {/* TODO - Make image appear again in preview modal */}
       <img
         onClick={handleCardClick}
         className="card__image"
         src={item.imageUrl}
         alt={item.name}
       />
+      <div className="card__title-and-like">
+        <p className="card__title">{item.name}</p>
+      </div>
     </li>
   );
 }
