@@ -14,7 +14,7 @@ import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
-import { addItem, getItems } from "../../utils/api";
+import { addItem, getItems, removeItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -24,7 +24,7 @@ function App() {
     condition: "clouds",
     isDay: false,
   });
-  console.log(weatherData);
+
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
@@ -52,7 +52,7 @@ function App() {
     addItem(newCardData)
       .then((data) => {
         setClothingItems([data, ...clothingItems]);
-        closeAllModals();
+        closeActiveModal();
       })
       .catch(console.error);
 
@@ -63,6 +63,18 @@ function App() {
 
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleCardDelete = (card) => {
+    removeItem(card._id)
+      .then(() => {
+        setClothingItems((cards) =>
+          cards.filter((item) => item._id !== card._id),
+        );
+        setSelectedCard({});
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
 
   const closeActiveModal = () => {
@@ -120,6 +132,7 @@ function App() {
                 <Profile
                   onCardClick={handleCardClick}
                   clothingItems={clothingItems}
+                  handleAddClick={handleAddClick}
                 />
               }
             />
@@ -134,6 +147,7 @@ function App() {
           onAddItem={onAddItem}
         />
         <ItemModal
+          onCardDelete={handleCardDelete}
           activeModal={activeModal}
           card={selectedCard}
           onClose={closeActiveModal}

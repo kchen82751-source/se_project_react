@@ -56,6 +56,8 @@
 
 .modal__image {
   width: 100%;
+  display: flex;
+  border-radius: 20px;
 }
 
 .modal__input {
@@ -99,9 +101,18 @@
 .modal__label {
   font-family: Cabinet Grotesk;
   font-weight: 700;
-  font-style: Bold;
+  font-weight: Bold;
   font-size: 16px;
   leading-trim: NONE;
   line-height: 20px;
   letter-spacing: 0%;
+}
+
+.modal__delete {
+  color: coral;
+  border: none;
+  left: 298.32px;
+  angle: 0 deg;
+  opacity: 1;
+  margin-left: 315.32px;
 }
