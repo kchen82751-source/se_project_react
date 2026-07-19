@@ -31,7 +31,7 @@
   top: 20px;
   right: 28px;
   border: none;
-  background: rgba(255, 255, 255, 1);
+  background: none;
 }
 
 .modal__content {
@@ -114,5 +114,9 @@
   left: 298.32px;
   angle: 0 deg;
   opacity: 1;
-  margin-left: 315.32px;
+}
+
+.modal__elements {
+  display: flex;
+  justify-content: space-between;
 }
