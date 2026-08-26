@@ -4,6 +4,11 @@ import closeicon from "../../assets/x.png";
 function ItemModal({ activeModal, onClose, onCardDelete, card }) {
   const handleDeleteClick = () => {
     onCardDelete(card);
+
+    const isOwn = selectedCard.owner === currentUser._id;
+
+    // Creating a variable which you'll then set in `className` for the delete button
+    const itemDeleteButtonClassName = `modal__delete-button ${isOwn ? "" : "modal__delete-button_hidden"}`;
   };
 
   return (

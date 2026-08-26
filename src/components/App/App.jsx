@@ -15,6 +15,7 @@ import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { addItem, getItems, removeItem } from "../../utils/api";
+import RegisterModal from "../RegisterModal/RegisterModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -24,6 +25,8 @@ function App() {
     condition: "clouds",
     isDay: false,
   });
+
+  const [isLoggedIn, setisLoggedIn] = useState({});
 
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
@@ -63,6 +66,14 @@ function App() {
 
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleRegister = () => {
+    setActiveModal("register");
+  };
+
+  const handleSignOut = () => {
+    isLoggedIn(false);
   };
 
   const handleCardDelete = (card) => {
@@ -145,6 +156,10 @@ function App() {
           onClose={closeActiveModal}
           isOpen={activeModal === "add-garment"}
           onAddItem={onAddItem}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onClose={closeActiveModal}
         />
         <ItemModal
           onCardDelete={handleCardDelete}

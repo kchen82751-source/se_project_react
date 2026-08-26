@@ -21,4 +21,9 @@ function ItemCard({ item, onCardClick }) {
   );
 }
 
+const isLiked = item.likes.some((id) => id === currentUser._id);
+
+// Create a variable which you then set in `className` for the like button
+const itemLikeButtonClassName = `...`;
+
 export default ItemCard;
