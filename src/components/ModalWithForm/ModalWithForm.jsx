@@ -1,5 +1,5 @@
 import "./ModalWithForm.css";
-import closeicon from "../../assets/x.png";
+import closeIcon from "../../assets/x.png";
 
 function ModalWithForm({
   buttonText,
@@ -10,6 +10,7 @@ function ModalWithForm({
   isOpen,
   children,
   onSubmit,
+  secondButton,
 }) {
   return (
     <div className={`modal ${isOpen && "modal_opened"}`}>
@@ -22,6 +23,9 @@ function ModalWithForm({
           {children}
           <button type="submit" className="modal__submit">
             {buttonText}
+          </button>
+          <button type="button" className="modal__submit">
+            {secondButton}
           </button>
         </form>
       </div>

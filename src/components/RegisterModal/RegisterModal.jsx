@@ -51,7 +51,7 @@ const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
       <label className="modal__label">
         Email{" "}
         <input
-          type="user info"
+          type="email"
           name="email"
           className="modal__input"
           id="register-email"
@@ -63,7 +63,7 @@ const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
       <label className="modal__label">
         Avatar{" "}
         <input
-          type="profile info"
+          type="url"
           name="avatar"
           className="modal__input"
           id="register-profile"

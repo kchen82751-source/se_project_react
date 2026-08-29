@@ -23,7 +23,7 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
       onSubmit={handleSubmit}
       buttonText="Add garment"
     >
-      <label htmlFor="name" className="modal__label">
+      <label htmlFor="clothing-name" className="modal__label">
         Name{" "}
         <input
           type="text"
@@ -38,7 +38,7 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           onChange={handleChange}
         />
       </label>
-      <label htmlFor="imageUrl" className="modal__label">
+      <label htmlFor="clothing-imageUrl" className="modal__label">
         Image{" "}
         <input
           type="url"
@@ -53,7 +53,10 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
       </label>
       <fieldset className="modal__radio-buttons">
         <legend className="modal__legend">Select the weather type:</legend>
-        <label htmlFor="hot" className="modal__label modal__label_type_radio">
+        <label
+          htmlFor="choiceHot"
+          className="modal__label modal__label_type_radio"
+        >
           <input
             type="radio"
             id="choiceHot"

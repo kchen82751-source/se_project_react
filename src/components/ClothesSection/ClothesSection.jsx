@@ -13,7 +13,8 @@ export default function ClothesSection({
         <button onClick={handleAddClick}>+ Add</button>
       </div>
       <ul className="clothes-section__items">
-        {ClothesSection.map((filteredCard) => {
+        {clothingItems.filter((item) => item.owner === currentUser._id)}
+        {clothingItems.map((filteredCard) => {
           return (
             <ItemCard
               key={filteredCard._id}

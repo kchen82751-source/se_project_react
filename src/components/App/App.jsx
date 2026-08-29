@@ -16,6 +16,9 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import { addItem, getItems, removeItem } from "../../utils/api";
 import RegisterModal from "../RegisterModal/RegisterModal";
+import { getUserInfo, signin, signup } from "../../utils/auth";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import LoginModal from "../LoginModal/LoginModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -26,12 +29,37 @@ function App() {
     isDay: false,
   });
 
-  const [isLoggedIn, setisLoggedIn] = useState({});
+  const [isLoggedIn, setisLoggedIn] = useState(false);
 
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [clothingItems, setClothingItems] = useState([]);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    // Check if this card is not currently liked
+    !isLiked
+      ? // if so, send a request to add the user's id to the card's likes array
+        api
+          // the first argument is the card's id
+          .addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item)),
+            );
+          })
+          .catch((err) => console.log(err))
+      : // if not, send a request to remove the user's id from the card's likes array
+        api
+          // the first argument is the card's id
+          .removeCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item)),
+            );
+          })
+          .catch((err) => console.log(err));
+  };
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -52,7 +80,9 @@ function App() {
       weather: inputValue.weatherType,
     };
 
-    addItem(newCardData)
+    const token = localStorage.getItem("jwt");
+
+    addItem(newCardData, token)
       .then((data) => {
         setClothingItems([data, ...clothingItems]);
         closeActiveModal();
@@ -65,6 +95,8 @@ function App() {
   };
 
   const handleAddClick = () => {
+    const token = localStorage.getItem("jwt");
+    addItem({});
     setActiveModal("add-garment");
   };
 
@@ -72,18 +104,52 @@ function App() {
     setActiveModal("register");
   };
 
+  const handleLoginClick = () => {
+    setActiveModal("loggedin");
+  };
+
+  // const weatherData = (data) => {
+  //   const token = localStorage.getItem("jwt");
+  //   setWeatherData([data, ...clothingItems]);
+  //     .then((token) => {
+  //       localStorage.setItem("jwt", token);
+  //     })
+  //     .catch(console.error);
+  // };
+
   const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setCurrentUser(null);
+    history.push("/");
     isLoggedIn(false);
   };
 
   const handleCardDelete = (card) => {
-    removeItem(card._id)
+    const token = localStorage.getItem("jwt");
+    removeItem(card._id, token)
       .then(() => {
         setClothingItems((cards) =>
           cards.filter((item) => item._id !== card._id),
         );
         setSelectedCard({});
         closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handlesignin = ({ email, password }) => {
+    signin({ email, password })
+      .then((token) => {
+        localStorage.setItem("jwt", token);
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const onSignupActiveModal = ({ email, password, name, avatar }) => {
+    signup({ email, password, name, avatar })
+      .then(() => {
+        handlesignin({ email, password });
       })
       .catch(console.error);
   };
@@ -107,6 +173,10 @@ function App() {
         setClothingItems(data);
       })
       .catch(console.error);
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      getUserInfo;
+    }
   }, []);
 
   // TODO
@@ -125,7 +195,13 @@ function App() {
     >
       <div className="page">
         <div className="page__content">
-          <Header handleAddClick={handleAddClick} weatherData={weatherData} />
+          <Header
+            handleAddClick={handleAddClick}
+            weatherData={weatherData}
+            isLoggedIn={isLoggedIn}
+            handleRegister={handleRegister}
+            handleLoginClick={handleLoginClick}
+          />
           <Routes>
             <Route
               path="/"
@@ -137,14 +213,17 @@ function App() {
                 />
               }
             />
+
             <Route
               path="/profile"
               element={
-                <Profile
-                  onCardClick={handleCardClick}
-                  clothingItems={clothingItems}
-                  handleAddClick={handleAddClick}
-                />
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    onCardClick={handleCardClick}
+                    clothingItems={clothingItems}
+                    handleAddClick={handleAddClick}
+                  />
+                </ProtectedRoute>
               }
             />
           </Routes>
@@ -158,7 +237,13 @@ function App() {
           onAddItem={onAddItem}
         />
         <RegisterModal
+          onSignUp={onSignupActiveModal}
           isOpen={activeModal === "register"}
+          onClose={closeActiveModal}
+        />
+        <LoginModal
+          onSignIn={handlesignin}
+          isOpen={activeModal === "loggedin"}
           onClose={closeActiveModal}
         />
         <ItemModal

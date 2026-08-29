@@ -1,3 +1,5 @@
+const CurrentUserContext = createContext();
+export default CurrentUserContext;
 <CurrentUserContext.Provider value={currentUser}>
-  <div className="page"></div>
+  ...
 </CurrentUserContext.Provider>;

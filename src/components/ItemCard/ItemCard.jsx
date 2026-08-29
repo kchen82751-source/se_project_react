@@ -5,6 +5,11 @@ function ItemCard({ item, onCardClick }) {
     onCardClick(item);
   };
 
+  const isLiked = item.likes.some((id) => id === currentUser._id);
+
+  // Create a variable which you then set in `className` for the like button
+  const itemLikeButtonClassName = `...`;
+
   return (
     <li className="card">
       {/* TODO - Make image appear again in preview modal */}
@@ -20,10 +25,5 @@ function ItemCard({ item, onCardClick }) {
     </li>
   );
 }
-
-const isLiked = item.likes.some((id) => id === currentUser._id);
-
-// Create a variable which you then set in `className` for the like button
-const itemLikeButtonClassName = `...`;
 
 export default ItemCard;

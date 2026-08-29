@@ -1,5 +1,5 @@
 import "./ItemModal.css";
-import closeicon from "../../assets/x.png";
+import closeIcon from "../../assets/x.png";
 
 function ItemModal({ activeModal, onClose, onCardDelete, card }) {
   const handleDeleteClick = () => {

@@ -1,4 +1,4 @@
-import { handleServerResponse } from "./api";
+import { handleServerResponse, baseUrl } from "./api";
 
 export const signup = ({ name, avatar, email, password }) => {
   return fetch(`${baseUrl}/signup`, {
