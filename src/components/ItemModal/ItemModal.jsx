@@ -1,5 +1,7 @@
 import "./ItemModal.css";
 import closeIcon from "../../assets/x.png";
+// import CurrentUserContext from "../../contexts/CurrentUserContext";
+import { useContext } from "react";
 
 function ItemModal({ activeModal, onClose, onCardDelete, card }) {
   const handleDeleteClick = () => {
@@ -15,7 +17,8 @@ function ItemModal({ activeModal, onClose, onCardDelete, card }) {
     <div className={`modal ${activeModal === "preview" && "modal_opened"}`}>
       <div className="modal__content modal__content_type_image">
         <button onClick={onClose} type="button" className="modal__close">
-          <img alt="Close" src={closeicon} />
+          <img src="src/assets/x button.png" alt=""></img>
+          <img alt="Close" src={closeIcon} />
         </button>
 
         <img src={card.imageUrl} alt={card.name} className="modal__image" />

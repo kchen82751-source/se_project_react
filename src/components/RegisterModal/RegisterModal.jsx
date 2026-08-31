@@ -17,39 +17,16 @@ const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
 
   return (
     <ModalWithForm
-      title="New garment"
+      title="Sign Up"
       name="new-card"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText="Add garment"
+      buttonText="Sign Up"
+      secondButton="or Login"
     >
       <label className="modal__label">
-        Name
-        <input
-          type="text"
-          name="name"
-          className="modal__input"
-          id="register-name"
-          placeholder="Name"
-          value={values.name}
-          onChange={handleChange}
-        />
-      </label>
-      <label className="modal__label">
-        Password
-        <input
-          type="password"
-          name="password"
-          className="modal__input"
-          id="register-password"
-          placeholder="Password"
-          value={values.password}
-          onChange={handleChange}
-        />
-      </label>
-      <label className="modal__label">
-        Email{" "}
+        Email *{" "}
         <input
           type="email"
           name="email"
@@ -61,7 +38,31 @@ const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
         />
       </label>
       <label className="modal__label">
-        Avatar{" "}
+        Password *
+        <input
+          type="password"
+          name="password"
+          className="modal__input"
+          id="register-password"
+          placeholder="Password"
+          value={values.password}
+          onChange={handleChange}
+        />
+      </label>
+      <label className="modal__label">
+        Name *
+        <input
+          type="text"
+          name="name"
+          className="modal__input"
+          id="register-name"
+          placeholder="Name"
+          value={values.name}
+          onChange={handleChange}
+        />
+      </label>
+      <label className="modal__label">
+        Avatar URL *{" "}
         <input
           type="url"
           name="avatar"
