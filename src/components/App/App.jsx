@@ -276,6 +276,7 @@ function App() {
                       onCardClick={handleCardClick}
                       clothingItems={clothingItems}
                       handleAddClick={handleAddClick}
+                      onSignOut={handleSignOut}
                     />
                   </ProtectedRoute>
                 }

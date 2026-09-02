@@ -48,9 +48,13 @@ function Header({
         </>
       ) : (
         <>
-          <button onClick={handleRegister}>signup</button>
+          <button onClick={handleRegister} className="modal__sign-up-in">
+            Sign Up
+          </button>
 
-          <button onClick={handleLoginClick}>login</button>
+          <button onClick={handleLoginClick} className="modal__sign-up-in">
+            Log In
+          </button>
         </>
       )}
     </header>

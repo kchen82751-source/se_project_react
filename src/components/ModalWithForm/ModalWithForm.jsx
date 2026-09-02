@@ -25,7 +25,7 @@ function ModalWithForm({
           <button type="submit" className="modal__submit">
             {buttonText}
           </button>
-          <button type="button" className="modal__submit">
+          <button type="button" className="modal__second-submit">
             {secondButton}
           </button>
         </form>
