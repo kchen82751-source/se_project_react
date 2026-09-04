@@ -12,8 +12,10 @@ export default function ClothesSection({
   return (
     <div className="clothes-section">
       <div className="clothes-section__row">
-        <p>Text</p>
-        <button onClick={handleAddClick}>+ Add</button>
+        <p>Your items</p>
+        <button onClick={handleAddClick} className="clothes-section__add">
+          + Add new
+        </button>
       </div>
       <ul className="clothes-section__items">
         {clothingItems &&

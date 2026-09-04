@@ -5,7 +5,8 @@
 
 .clothes-section__row {
   display: flex;
-  margin-left: 15px;
+  margin-left: 25px;
+  font-weight: 700;
 }
 
 .clothes-section__items {
@@ -18,4 +19,9 @@
   justify-items: center;
   width: 100%;
   padding-left: 0;
+}
+
+.clothes-section__add {
+  border: none;
+  margin-left: 20px;
 }

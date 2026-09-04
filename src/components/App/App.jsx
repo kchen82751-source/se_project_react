@@ -14,12 +14,19 @@ import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
-import { addItem, getItems, removeItem } from "../../utils/api";
+import {
+  addItem,
+  getItems,
+  removeItem,
+  addCardLike,
+  removeCardLike,
+} from "../../utils/api";
 import RegisterModal from "../RegisterModal/RegisterModal";
-import { getUserInfo, signin, signup } from "../../utils/auth";
+import { getUserInfo, signin, signup, editProfile } from "../../utils/auth";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import LoginModal from "../LoginModal/LoginModal";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -35,15 +42,16 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [editProfileClick, setEditProfileClick] = useState("");
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = localStorage.getItem("jwt");
     // Check if this card is not currently liked
     !isLiked
       ? // if so, send a request to add the user's id to the card's likes array
-        api
-          // the first argument is the card's id
-          .addCardLike(id, token)
+
+        // the first argument is the card's id
+        addCardLike(id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard : item)),
@@ -51,9 +59,9 @@ function App() {
           })
           .catch((err) => console.log(err))
       : // if not, send a request to remove the user's id from the card's likes array
-        api
-          // the first argument is the card's id
-          .removeCardLike(id, token)
+
+        // the first argument is the card's id
+        removeCardLike(id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
               cards.map((item) => (item._id === id ? updatedCard : item)),
@@ -85,7 +93,7 @@ function App() {
 
     addItem(newCardData, token)
       .then((data) => {
-        setClothingItems([data, ...clothingItems]);
+        setClothingItems([data.data, ...clothingItems]);
         closeActiveModal();
       })
       .catch(console.error);
@@ -93,6 +101,19 @@ function App() {
     // Don't use newCardData
     // The ID will be inclded in the response data
     // .catch()
+  };
+
+  const onEditProfileSubmit = (inputValue) => {
+    editProfile(inputValue.name, inputValue.avatar)
+      .then((data) => {
+        setCurrentUser(data.data);
+        closeActiveModal();
+      })
+      .catch(console.error);
+  };
+
+  const handleEditProfileClick = () => {
+    setActiveModal("edit-profile");
   };
 
   const handleAddClick = () => {
@@ -122,8 +143,6 @@ function App() {
     localStorage.removeItem("jwt");
     setCurrentUser(null);
     setisLoggedIn(false);
-    history.push("/");
-    isLoggedIn(false);
   };
 
   const handleCardDelete = (card) => {
@@ -143,6 +162,12 @@ function App() {
     signin({ email, password })
       .then((res) => {
         localStorage.setItem("jwt", res.token);
+        return getUserInfo();
+      })
+      .then((res) => {
+        setCurrentUser(res);
+        console.log(res);
+        setisLoggedIn(true);
         closeActiveModal();
       })
       .catch(console.error);
@@ -264,6 +289,7 @@ function App() {
                     weatherData={weatherData}
                     onCardClick={handleCardClick}
                     clothingItems={clothingItems}
+                    handleCardLike={handleCardLike}
                   />
                 }
               />
@@ -277,6 +303,7 @@ function App() {
                       clothingItems={clothingItems}
                       handleAddClick={handleAddClick}
                       onSignOut={handleSignOut}
+                      onEditProfile={handleEditProfileClick}
                     />
                   </ProtectedRoute>
                 }
@@ -295,17 +322,24 @@ function App() {
             onSignUp={onSignupActiveModal}
             isOpen={activeModal === "register"}
             onClose={closeActiveModal}
+            secondaryButtonAction={handleLoginClick}
           />
           <LoginModal
             onSignIn={handlesignin}
             isOpen={activeModal === "loggedin"}
             onClose={closeActiveModal}
+            secondaryButtonAction={handleRegister}
           />
           <ItemModal
             onCardDelete={handleCardDelete}
             activeModal={activeModal}
             card={selectedCard}
             onClose={closeActiveModal}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "edit-profile"}
+            onClose={closeActiveModal}
+            onEditProfile={onEditProfileSubmit}
           />
         </div>
       </CurrentTemperatureUnitContext.Provider>

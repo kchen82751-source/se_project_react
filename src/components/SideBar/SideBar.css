@@ -1,3 +1,10 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: start;
+}
+
 .sidebar__profile {
   display: flex;
   flex-direction: row-reverse;
@@ -9,6 +16,7 @@
   font-size: 20px;
   font-weight: 700;
   white-space: nowrap;
+  margin-left: 16px;
 }
 
 .sidebar__avatar {
@@ -36,4 +44,14 @@
 
 .sidebar__user-container {
   display: flex;
+}
+
+.sidebar__user-edit {
+  border: none;
+  font-weight: 700;
+}
+
+.sidebar__log-out {
+  border: none;
+  font-weight: 700;
 }

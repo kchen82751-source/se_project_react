@@ -1,16 +1,17 @@
 import "./ItemCard.css";
 import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
+import buttonIcon from "../../assets/Like button.png";
+import secondbuttonIcon from "../../assets/State=Liked.png";
 
-function ItemCard({ item, onCardClick }) {
+function ItemCard({ item, onCardClick, handleCardLike }) {
   const handleCardClick = () => {
     onCardClick(item);
   };
   const currentUser = useContext(CurrentUserContext);
-  const isLiked = item.likes.some((id) => id === currentUser._id);
-
-  // Create a variable which you then set in `className` for the like button
-  const itemLikeButtonClassName = `...`;
+  const isLiked = item?.likes.some(
+    (id) => id === currentUser?.currentUser?._id,
+  );
 
   return (
     <li className="card">
@@ -23,7 +24,17 @@ function ItemCard({ item, onCardClick }) {
       />
       <div className="card__title-and-like">
         <p className="card__title">{item.name}</p>
-        {currentUser && <button>Like</button>}
+        {currentUser && (
+          <button
+            onClick={() => handleCardLike({ id: item._id, isLiked })}
+            className="card__like-button"
+          >
+            <img
+              src={isLiked ? secondbuttonIcon : buttonIcon}
+              alt="Clickable Icon"
+            />
+          </button>
+        )}
       </div>
     </li>
   );

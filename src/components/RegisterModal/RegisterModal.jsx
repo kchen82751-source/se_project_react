@@ -1,7 +1,12 @@
 import { useForm } from "../../hooks/useForm";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
+const RegisterModal = ({
+  onSignUp,
+  isOpen,
+  onClose,
+  secondaryButtonAction,
+}) => {
   const defaultValue = {
     name: "",
     password: "",
@@ -24,6 +29,7 @@ const RegisterModal = ({ onSignUp, isOpen, onClose }) => {
       onSubmit={handleSubmit}
       buttonText="Sign Up"
       secondButton="or Login"
+      secondaryButtonAction={secondaryButtonAction}
     >
       <label className="modal__label">
         Email *{" "}
