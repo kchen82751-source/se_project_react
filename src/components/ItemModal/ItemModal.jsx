@@ -4,13 +4,13 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
 
 function ItemModal({ activeModal, onClose, onCardDelete, card }) {
-  const currentUser = useContext(CurrentUserContext);
-  const isOwn = card.owner === currentUser._id;
+  const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
+  //const isOwn = card?.owner === currentUser?._id;
   const handleDeleteClick = () => {
     onCardDelete(card);
 
     // Creating a variable which you'll then set in `className` for the delete button
-    const itemDeleteButtonClassName = `modal__delete-button ${isOwn ? "" : "modal__delete-button_hidden"}`;
+    // const itemDeleteButtonClassName = `modal__delete-button ${isOwn ? "" : "modal__delete-button_hidden"}`;
   };
 
   return (
@@ -25,7 +25,7 @@ function ItemModal({ activeModal, onClose, onCardDelete, card }) {
         <div className="modal__footer">
           <div className="modal__elements">
             <p className="modal__caption">{card.name}</p>
-            {currentUser && (
+            {isLoggedIn && (
               <button
                 onClick={handleDeleteClick}
                 type="button"

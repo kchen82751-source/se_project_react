@@ -8,10 +8,9 @@ function ItemCard({ item, onCardClick, handleCardLike }) {
   const handleCardClick = () => {
     onCardClick(item);
   };
-  const currentUser = useContext(CurrentUserContext);
-  const isLiked = item?.likes.some(
-    (id) => id === currentUser?.currentUser?._id,
-  );
+
+  const { currentUser, isLoggedIn } = useContext(CurrentUserContext);
+  const isLiked = item?.likes.some((id) => id === currentUser?._id);
 
   return (
     <li className="card">
@@ -24,7 +23,7 @@ function ItemCard({ item, onCardClick, handleCardLike }) {
       />
       <div className="card__title-and-like">
         <p className="card__title">{item.name}</p>
-        {currentUser && (
+        {isLoggedIn && (
           <button
             onClick={() => handleCardLike({ id: item._id, isLiked })}
             className="card__like-button"
